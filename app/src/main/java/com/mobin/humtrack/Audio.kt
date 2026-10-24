@@ -174,8 +174,13 @@ object Analyze {
         return FloatArray(m) { (x[2 * it] + x[2 * it + 1]) / 65536f }
     }
 
-    /** Hummed melody -> list of notes (autocorrelation pitch tracking). */
+    /** Hummed melody -> notes. Uses the AI pitch model; falls back to autocorrelation if unavailable. */
     fun melody(x: FloatArray): Melody? {
+        if (Pitch.ready) return Pitch.melody(x)
+        return melodyClassic(x)
+    }
+
+    fun melodyClassic(x: FloatArray): Melody? {
         val sr = SR2
         val n = 1024
         val hop = 512

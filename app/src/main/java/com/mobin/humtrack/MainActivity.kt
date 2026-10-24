@@ -44,6 +44,7 @@ class MainActivity : Activity() {
 
     override fun onCreate(b: Bundle?) {
         super.onCreate(b)
+        Thread { Pitch.init(applicationContext) }.start()
         tts = TextToSpeech(this) { if (it == TextToSpeech.SUCCESS) tts.language = Locale.US }
         val col = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
